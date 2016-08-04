@@ -24,7 +24,7 @@ $(function() {
 			}
 			var i=0;
 	   		$('#sortable3 input').each(function(){
-	   			$(this).val(i);
+	   			$(this).val(i+1);
 	   			i++;
 	   			//console.log($(this).val());
 	   		});
