@@ -46,6 +46,10 @@ class Modeltoolimexp extends Model
                     $import_temp = $_POST;
                 }
                 while (($data = fgetcsv($fo, 0, ";")) !== FALSE) {
+                    array_unshift($data, '');
+                    if(empty($data[$import_temp['product_sku']])){
+                        continue;
+                    }
                     $query = $this->db->query("SELECT * FROM  " . DB_PREFIX . "product WHERE sku='" . addslashes($data[$import_temp['product_sku']]) . "'");
                     if (!$this->db->countAffected()) {
                         $data['product_model'] = (!empty($import_temp['product_model'])) ? $data[$import_temp['product_model']] : "";
@@ -70,6 +74,9 @@ class Modeltoolimexp extends Model
                             $data['product_to_category_category_id_else'] = array();
                         }
                         $data['product_quantity'] = (!empty($import_temp['product_quantity'])) ? $data[$import_temp['product_quantity']] : 0;
+                        if(!empty($import_temp['product_quantity_yes'])){
+                            $data['product_quantity'] = ($data[$import_temp['product_quantity_yes']] == "Есть")?100:0;
+                        }
                         if (!empty($import_temp['product_stock_status_id'])) {
                             $status = $this->db->query("SELECT stock_status_id FROM " . DB_PREFIX . "stock_status WHERE name LIKE '%" . $data[$import_temp['product_stock_status_id']] . "%'")->row;
                             $data['product_stock_status_id'] = (!empty($status['stock_status_id'])) ? $status['stock_status_id'] : 5;
@@ -78,7 +85,7 @@ class Modeltoolimexp extends Model
                         }
                         $data['product_image'] = (!empty($import_temp['product_image'])) ? $data[$import_temp['product_image']] : "no_image.jpg";
                         if (!empty($import_temp['product_manufacturer_id'])) {
-                            $manufacturer_id = $this->db->query("SELECT manufacturer_id FROM " . DB_PREFIX . "manufacturer WHERE name='" . $data[$import_temp['product_manufacturer_id']] . "';")->row;
+                            $manufacturer_id = $this->db->query("SELECT manufacturer_id FROM " . DB_PREFIX . "manufacturer WHERE name='" . addslashes($data[$import_temp['product_manufacturer_id']]) . "';")->row;
                             $data['product_manufacturer_id'] = (!empty($manufacturer_id['manufacturer_id'])) ? $manufacturer_id['manufacturer_id'] : 0;
                         } else {
                             if (!empty($data[$import_temp['product_manufacturer_id']])) {
@@ -212,8 +219,8 @@ class Modeltoolimexp extends Model
                     } else {
                         $data['product_model'] = (!empty($import_temp['product_model'])) ? $data[$import_temp['product_model']] : "";
                         $data['product_price'] = (!empty($import_temp['product_price'])) ? (float)$data[$import_temp['product_price']] : 0;
-                        $data['product_description_name'] = (!empty($import_temp['product_description_name'])) ? addslashes($data[$import_temp['product_description_name']]) : "";
-                        $data['product_description_description'] = (!empty($import_temp['product_description_description'])) ? addslashes($data[$import_temp['product_description_description']]) : "";
+                        // $data['product_description_name'] = (!empty($import_temp['product_description_name'])) ? addslashes($data[$import_temp['product_description_name']]) : "";
+                        // $data['product_description_description'] = (!empty($import_temp['product_description_description'])) ? addslashes($data[$import_temp['product_description_description']]) : "";
                         if (!empty($import_temp['product_to_category_category_id'])) {
                             if (!empty($data[$import_temp['product_to_category_category_id']])) {
                                 $category_main_id = $this->db->query("SELECT category_id FROM " . DB_PREFIX . "category_description WHERE name LIKE '%" . $data[$import_temp['product_to_category_category_id']] . "%'")->row;
@@ -232,6 +239,9 @@ class Modeltoolimexp extends Model
                             $data['product_to_category_category_id_else'] = array();
                         }
                         $data['product_quantity'] = (!empty($import_temp['product_quantity'])) ? $data[$import_temp['product_quantity']] : 0;
+                        if(!empty($import_temp['product_quantity_yes'])){
+                            $data['product_quantity'] = ($data[$import_temp['product_quantity_yes']] == "Есть")?100:0;
+                        }
                         if (!empty($import_temp['product_stock_status_id'])) {
                             $status = $this->db->query("SELECT stock_status_id FROM " . DB_PREFIX . "stock_status WHERE name LIKE '%" . $data[$import_temp['product_stock_status_id']] . "%'")->row;
                             $data['product_stock_status_id'] = (!empty($status['stock_status_id'])) ? $status['stock_status_id'] : 5;
@@ -270,12 +280,12 @@ class Modeltoolimexp extends Model
                         if (!empty($data['product_price'])) {
                             $this->db->query("UPDATE " . DB_PREFIX . "product SET price =" . $data['product_price'] . " WHERE product_id='" . $product_id . "'");
                         }
-                        if (!empty($data['product_description_name'])) {
-                            $this->db->query("UPDATE " . DB_PREFIX . "product_description SET name ='" . $data['product_description_name'] . "' WHERE product_id='" . $product_id . "'");
-                        }
-                        if (!empty($data['product_description_description'])) {
-                            $this->db->query("UPDATE " . DB_PREFIX . "product_description SET description ='" . $data['product_description_description'] . "' WHERE product_id='" . $product_id . "'");
-                        }
+                        // if (!empty($data['product_description_name'])) {
+                        //     $this->db->query("UPDATE " . DB_PREFIX . "product_description SET name ='" . $data['product_description_name'] . "' WHERE product_id='" . $product_id . "'");
+                        // }
+                        // if (!empty($data['product_description_description'])) {
+                        //     $this->db->query("UPDATE " . DB_PREFIX . "product_description SET description ='" . $data['product_description_description'] . "' WHERE product_id='" . $product_id . "'");
+                        // }
                         /*if(!empty($data['product_to_category_main_id'])){
 
                         }

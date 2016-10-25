@@ -53,6 +53,7 @@
                 <li class="ui-state-default"><input type="hidden" name="product.status">Показывать</li>
                 <!-- -- -->
                 <li class="ui-state-default"><input type="hidden" name="product_quantity">Количество</li>
+                <li class="ui-state-default"><input type="hidden" name="product_quantity_yes">Количество (Есть/Нет)</li>
                 <li class="ui-state-default"><input type="hidden" name="product_stock_status_id">Статус при отсуствии
                 </li>
                 <li class="ui-state-default"><input type="hidden" name="product_image">Главное изображение</li>
@@ -76,6 +77,11 @@
                 <li class="ui-state-default"><input type="hidden" name="product_to_category_category_id_else">Дополнительные
                     категории
                 </li>
+                <li class="ui-state-default"><input type="hidden" name="product_empty_value1">Пропустить значение</li>
+                <li class="ui-state-default"><input type="hidden" name="product_empty_value2">Пропустить значение</li>
+                <li class="ui-state-default"><input type="hidden" name="product_empty_value3">Пропустить значение</li>
+                <li class="ui-state-default"><input type="hidden" name="product_empty_value4">Пропустить значение</li>
+                <li class="ui-state-default"><input type="hidden" name="product_empty_value5">Пропустить значение</li>
             </ul>
         </div>
         <div class="list right">
