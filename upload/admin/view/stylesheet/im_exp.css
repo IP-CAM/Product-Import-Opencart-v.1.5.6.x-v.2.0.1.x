@@ -35,3 +35,7 @@
 	display: none;
 	margin-left: 10px;
 }
+#file{
+	margin: 0 auto;
+	display: inline-block;
+}

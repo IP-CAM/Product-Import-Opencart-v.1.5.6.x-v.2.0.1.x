@@ -6,55 +6,61 @@ class ControllerModuleImExp extends Controller
     {
         $this->load->language('module/im_exp');
         $this->document->setTitle($this->language->get('heading_title'));
-        $this->data['heading_title'] = $this->language->get('heading_title');
-        $this->data['breadcrumbs'] = array();
+        $data['heading_title'] = $this->language->get('heading_title');
+        $data['breadcrumbs'] = array();
 
-        $this->data['breadcrumbs'][] = array(
+        $data['breadcrumbs'][] = array(
             'text' => $this->language->get('text_home'),
             'href' => $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL'),
             'separator' => false
         );
 
-        $this->data['breadcrumbs'][] = array(
+        $data['breadcrumbs'][] = array(
             'text' => $this->language->get('text_module'),
             'href' => $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL'),
             'separator' => ' :: '
         );
 
-        $this->data['breadcrumbs'][] = array(
+        $data['breadcrumbs'][] = array(
             'text' => $this->language->get('heading_title'),
             'href' => $this->url->link('module/im_exp', 'token=' . $this->session->data['token'], 'SSL'),
             'separator' => ' :: '
         );
-        $this->document->addStyle('/admin/view/stylesheet/im_exp.css');
-        $this->document->addScript('/admin/view/javascript/im_exp.js');
-        $this->data['import_url'] = $this->url->link('module/im_exp/import', 'token=' . $this->session->data['token'], 'SSL');
-        $this->data['export_url'] = $this->url->link('module/im_exp/export', 'token=' . $this->session->data['token'], 'SSL');
-        $this->data['saveorder'] = $this->url->link('module/im_exp/saveorder', 'token=' . $this->session->data['token'], 'SSL');
-        $this->data['delorder'] = $this->url->link('module/im_exp/delorder', 'token=' . $this->session->data['token'], 'SSL');
-        $this->data['session'] = $this->session->data['token'];
+        // $this->document->addStyle('/admin/view/stylesheet/im_exp.css');
+        // $this->document->addScript('/admin/view/javascript/im_exp.js');
+        $data['import_url'] = $this->url->link('module/im_exp/import', 'token=' . $this->session->data['token'], 'SSL');
+        $data['export_url'] = $this->url->link('module/im_exp/export', 'token=' . $this->session->data['token'], 'SSL');
+        $data['saveorder'] = $this->url->link('module/im_exp/saveorder', 'token=' . $this->session->data['token'], 'SSL');
+        $data['delorder'] = $this->url->link('module/im_exp/delorder', 'token=' . $this->session->data['token'], 'SSL');
+        $data['cancel'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL');
+        $data['session'] = $this->session->data['token'];
         $this->load->model('tool/im_exp');
-        $this->data['saveorderlist'] = $this->model_tool_im_exp->getorder();
+        $data['saveorderlist'] = $this->model_tool_im_exp->getorder();
         if (isset($this->session->data['success'])) {
-            $this->data['success'] = $this->session->data['success'];
+            $data['success'] = $this->session->data['success'];
             unset($this->session->data['success']);
         } else {
-            $this->data['success'] = '';
+            $data['success'] = '';
         }
         if (isset($this->error['warning'])) {
-            $this->data['error_warning'] = $this->error['warning'];
+            $data['error_warning'] = $this->error['warning'];
         } else if (isset($this->session->data['warning'])) {
-            $this->data['error_warning'] = $this->session->data['warning'];
+            $data['error_warning'] = $this->session->data['warning'];
             unset($this->session->data['warning']);
         } else {
-            $this->data['error_warning'] = '';
+            $data['error_warning'] = '';
         }
-        $this->template = 'module/im_exp.tpl';
-        $this->children = array(
-            'common/header',
-            'common/footer'
-        );
-        $this->response->setOutput($this->render());
+
+        // $this->template = 'module/im_exp.tpl';
+        // $this->children = array(
+        //     'common/header',
+        //     'common/footer'
+        // );
+        // $this->response->setOutput($this->render());
+        $data['header'] = $this->load->controller('common/header');
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['footer'] = $this->load->controller('common/footer');
+        $this->response->setOutput($this->load->view('module/im_exp.tpl', $data));
     }
 
     public function import()
@@ -66,7 +72,7 @@ class ControllerModuleImExp extends Controller
             $this->session->data['warning'] = "Ошибка импорта";
         }
 
-        $this->redirect($this->url->link('module/im_exp', 'token=' . $this->session->data['token'], 'SSL'));
+        $this->response->redirect($this->url->link('module/im_exp', 'token=' . $this->session->data['token'], 'SSL'));
     }
 
     public function export()
