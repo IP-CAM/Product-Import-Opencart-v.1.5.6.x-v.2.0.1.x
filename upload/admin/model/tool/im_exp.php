@@ -85,7 +85,7 @@ class Modeltoolimexp extends Model
                         }
                         $data['product_image'] = (!empty($import_temp['product_image'])) ? $data[$import_temp['product_image']] : "no_image.jpg";
                         if (!empty($import_temp['product_manufacturer_id'])) {
-                            $manufacturer_id = $this->db->query("SELECT manufacturer_id FROM " . DB_PREFIX . "manufacturer WHERE name='" . addslashes($data[$import_temp['product_manufacturer_id']]) . "';")->row;
+                            $manufacturer_id = $this->db->query("SELECT manufacturer_id FROM " . DB_PREFIX . "manufacturer WHERE name='" . addslashes(preg_replace("/[^a-zA-ZА-Яа-я0-9\s]/", "", $data[$import_temp['product_manufacturer_id']])) . "';")->row;
                             $data['product_manufacturer_id'] = (!empty($manufacturer_id['manufacturer_id'])) ? $manufacturer_id['manufacturer_id'] : 0;
                         } else {
                             if (!empty($data[$import_temp['product_manufacturer_id']])) {
@@ -250,7 +250,7 @@ class Modeltoolimexp extends Model
                         }
                         $data['product_image'] = (!empty($import_temp['product_image'])) ? $data[$import_temp['product_image']] : "no_image.jpg";
                         if (!empty($import_temp['product_manufacturer_id'])) {
-                            $manufacturer_id = $this->db->query("SELECT manufacturer_id FROM " . DB_PREFIX . "manufacturer WHERE name='" . $data[$import_temp['product_manufacturer_id']] . "';")->row;
+                            $manufacturer_id = $this->db->query("SELECT manufacturer_id FROM " . DB_PREFIX . "manufacturer WHERE name='" .  addslashes(preg_replace("/[^a-zA-ZА-Яа-я0-9\s]/", "", $data[$import_temp['product_manufacturer_id']])) . "';")->row;
                             $data['product_manufacturer_id'] = (!empty($manufacturer_id['manufacturer_id'])) ? $manufacturer_id['manufacturer_id'] : 0;
                         } else {
                             $data['product_manufacturer_id'] = 0;
@@ -299,33 +299,33 @@ class Modeltoolimexp extends Model
                         if (!empty($data['product_stock_status_id']) && $data['product_stock_status_id'] != 5) {
                             $this->db->query("UPDATE " . DB_PREFIX . "product SET stock_status_id =" . $data['product_stock_status_id'] . " WHERE product_id='" . $product_id . "'");
                         }
-                        if (!empty($data['product_image'])) {
-                            $this->db->query("UPDATE " . DB_PREFIX . "product SET image ='" . $data['product_image'] . "' WHERE product_id='" . $product_id . "'");
-                        }
-                        if (!empty($data['product_manufacturer_id'])) {
-                            $this->db->query("UPDATE " . DB_PREFIX . "product SET manufacturer_id =" . $data['product_manufacturer_id'] . " WHERE product_id='" . $product_id . "'");
-                        }
+                        // if (!empty($data['product_image'])) {
+                        //     $this->db->query("UPDATE " . DB_PREFIX . "product SET image ='" . $data['product_image'] . "' WHERE product_id='" . $product_id . "'");
+                        // }
+                        // if (!empty($data['product_manufacturer_id'])) {
+                        //     $this->db->query("UPDATE " . DB_PREFIX . "product SET manufacturer_id =" . $data['product_manufacturer_id'] . " WHERE product_id='" . $product_id . "'");
+                        // }
                         if (!empty($import_temp['product_status'])) {
                             $this->db->query("UPDATE " . DB_PREFIX . "product SET status =" . $data['product_status'] . " WHERE product_id='" . $product_id . "'");
                         }
                         /*if(!empty($data['product_attribute'])){
 
                         }*/
-                        if (!empty($data['product_description_meta_description'])) {
-                            $this->db->query("UPDATE " . DB_PREFIX . "product_description SET meta_description ='" . $data['product_description_meta_description'] . "' WHERE product_id='" . $product_id . "'");
-                        }
-                        if (!empty($data['product_description_meta_keyword'])) {
-                            $this->db->query("UPDATE " . DB_PREFIX . "product_description SET meta_keyword ='" . $data['product_description_meta_keyword'] . "' WHERE product_id='" . $product_id . "'");
-                        }
-                        if (!empty($data['product_description_seo_title'])) {
-                            $this->db->query("UPDATE " . DB_PREFIX . "product_description SET seo_title ='" . $data['product_description_seo_title'] . "' WHERE product_id='" . $product_id . "'");
-                        }
-                        if (!empty($data['product_description_seo_h1'])) {
-                            $this->db->query("UPDATE " . DB_PREFIX . "product_description SET seo_h1 ='" . $data['product_description_seo_h1'] . "' WHERE product_id='" . $product_id . "'");
-                        }
-                        if (!empty($data['product_description_tag'])) {
-                            $this->db->query("UPDATE " . DB_PREFIX . "product_description SET tag ='" . $data['product_description_tag'] . "' WHERE product_id='" . $product_id . "'");
-                        }
+                        // if (!empty($data['product_description_meta_description'])) {
+                        //     $this->db->query("UPDATE " . DB_PREFIX . "product_description SET meta_description ='" . $data['product_description_meta_description'] . "' WHERE product_id='" . $product_id . "'");
+                        // }
+                        // if (!empty($data['product_description_meta_keyword'])) {
+                        //     $this->db->query("UPDATE " . DB_PREFIX . "product_description SET meta_keyword ='" . $data['product_description_meta_keyword'] . "' WHERE product_id='" . $product_id . "'");
+                        // }
+                        // if (!empty($data['product_description_seo_title'])) {
+                        //     $this->db->query("UPDATE " . DB_PREFIX . "product_description SET seo_title ='" . $data['product_description_seo_title'] . "' WHERE product_id='" . $product_id . "'");
+                        // }
+                        // if (!empty($data['product_description_seo_h1'])) {
+                        //     $this->db->query("UPDATE " . DB_PREFIX . "product_description SET seo_h1 ='" . $data['product_description_seo_h1'] . "' WHERE product_id='" . $product_id . "'");
+                        // }
+                        // if (!empty($data['product_description_tag'])) {
+                        //     $this->db->query("UPDATE " . DB_PREFIX . "product_description SET tag ='" . $data['product_description_tag'] . "' WHERE product_id='" . $product_id . "'");
+                        // }
                         /*if(!empty($data['product_image_id_image'])){
 
                         }*/
