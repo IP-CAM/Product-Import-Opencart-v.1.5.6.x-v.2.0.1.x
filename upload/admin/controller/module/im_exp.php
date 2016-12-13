@@ -26,8 +26,6 @@ class ControllerModuleImExp extends Controller
             'href' => $this->url->link('module/im_exp', 'token=' . $this->session->data['token'], 'SSL'),
             'separator' => ' :: '
         );
-        // $this->document->addStyle('/admin/view/stylesheet/im_exp.css');
-        // $this->document->addScript('/admin/view/javascript/im_exp.js');
         $data['import_url'] = $this->url->link('module/im_exp/import', 'token=' . $this->session->data['token'], 'SSL');
         $data['export_url'] = $this->url->link('module/im_exp/export', 'token=' . $this->session->data['token'], 'SSL');
         $data['saveorder'] = $this->url->link('module/im_exp/saveorder', 'token=' . $this->session->data['token'], 'SSL');
