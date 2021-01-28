@@ -1,7 +1,4 @@
 # OpenCart Products Import v0.3a
+The module for importing the price list in CSV format in OpenCart with the ability to adapt to the price list structure.
 
-Модуль для импорта прайс-листа в Формате CSV в OpenCart c возможностью адаптироваться под структуру прайс-листа. 
-
-Если у Вас есть знания и желание помочь развить модуль, пишете в Skype: dean992008
-
-Также Вы можете помочь материально на BitCoin кошелек: 3QQyUPAkZXewfKL7pSpaiakayDHgF5giqg
+If you have knowledge and desire to help develop the module, write in Skype: dean992008
